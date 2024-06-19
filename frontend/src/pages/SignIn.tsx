@@ -1,7 +1,8 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { UserProps } from '../models/user';
 
-const SignIn = () => {
+const SignIn = ({ setUser }: { setUser: Dispatch<SetStateAction<UserProps | null>> }) => {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -19,9 +20,14 @@ const SignIn = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (form.password !== form.passwordConfirmation) {
+      return setError('Invalid password confirmation');
+    }
+    
     try {
       const response = await axios.post('http://localhost:8080/api/auth/signin', form);
       console.log(response.data);
+      setError("");
     } catch (error) {
       console.error('Error logging in', error);
       setError('Invalid email or password');

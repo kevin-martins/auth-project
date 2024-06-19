@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { UserProps } from "../models/user";
 
-const LogIn = () => {
+const LogIn = ({ setUser }: { setUser: Dispatch<SetStateAction<UserProps | null>> }) => {
   const [form, setForm] = useState({
     email: "",
     password: ""
